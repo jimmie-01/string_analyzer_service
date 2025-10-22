@@ -1,3 +1,4 @@
+const { response } = require('express');
 const db = require('../models/db');
 const StringAnalyzer = require('../services/stringAnalyzer');
 const NaturalLanguageParser = require('../utils/naturalLanguageParser');
@@ -124,6 +125,17 @@ class StringController {
 				}
 				paramCount++;
 				query += `AND length <= $${paramCount}`;
+				params.push(maxLen);
+				filtersApplied.max_length = maxLen;
+			}
+
+			if (max_length !== undefined) {
+				const maxLen = parseInt(max_length);
+				if (isNaN(maxLen)) {
+					return res.status(400).json({ error: 'Invalid max_length parameter' });
+				}
+				paramCount++;
+				query += ` AND length <= $${ paramCount}`;
 				params.push(maxLen);
 				filtersApplied.max_length = maxLen;
 			}
