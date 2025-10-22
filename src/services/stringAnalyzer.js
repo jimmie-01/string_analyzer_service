@@ -34,11 +34,26 @@ class StringAnalyzer {
 
 	static isPalindrome(str) {
 		const cleanStr = str.toLowerCase().replace(/[^a-z0-9]/g, '');
-		return cleanstr === cleanstr.split('').reverse().join('');
+		return cleanStr === cleanStr.split('').reverse().join('');
 	}
 
 	static countWords(str) {
 		return str.trim() === '' ? 0 : str.trim().split(/\s+/).length;
 	}
-	
+
+	static getCharacterFrequency(str) {
+		const frequency = {};
+		const cleanstr = str.toLowerCase();
+
+		for (let char of cleanstr) {
+			frequency[char] = (frequency[char] || 0) + 1;
+		}
+
+		return frequency;
+	}
+	static generateSHA256(str) {
+		return crypto.createHash('sha256').update(str).digest('hex');
+	}
 }
+
+module.exports = StringAnalyzer;
